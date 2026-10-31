@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>J.A.R.V.I.S. // Gemini Core Mark-VII AI Screen HUD</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/jarvis_hud.css" />
+</head>
+<body>
+  <!-- Holographic Grid & Vignette Overlay -->
+  <div class="hud-scanlines"></div>
+  <div class="hud-vignette"></div>
+
+  <!-- TOP TELEMETRY HEADER BAR -->
+  <header class="hud-header">
+    <div class="header-left">
+      <div class="stark-badge">STARK HUD // GEMINI CORE</div>
+      <div class="hw-title">
+        <span class="title-main">J.A.R.V.I.S. AI WORKSTATION TERMINAL</span>
+        <span class="title-sub" id="hw-id-label">MOTHERBOARD: HP-605747-001 // LVDS OPEN-FRAME</span>
+      </div>
+    </div>
+
+    <div class="header-center">
+      <div class="clock-display" id="hud-clock">00:00:00</div>
+      <div class="date-display" id="hud-date">INITIALIZING SYSTEM CLOCK...</div>
+    </div>
+
+    <div class="header-right">
+      <div class="status-pill" id="llm-status-pill">
+        <span class="dot pulse-cyan" id="brain-dot"></span>
+        <span id="llm-provider-label">BRAIN: CHECKING CORE...</span>
+      </div>
+      <button class="hud-btn key-config-btn" id="open-key-modal-btn" title="Configure Gemini / Claude / Groq API Key in 1 Click">
+        ⚙️ AI KEY
+      </button>
+      <button class="hud-btn voice-toggle-btn active" id="tts-toggle-btn" title="Toggle Offline Voice Synthesis (pyttsx3 + Web Speech)">
+        <span id="tts-icon">🔊</span> VOICE: <span id="tts-state">ONLINE</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN TWO-COLUMN IRON MAN HUD WORKSPACE -->
+  <main class="hud-grid">
+    <!-- LEFT COLUMN: HARDWARE TELEMETRY & OPEN-METEO WEATHER -->
+    <section class="hud-col col-left">
+      <!-- Panel 1: Open-Frame Hardware Telemetry -->
+      <div class="hud-panel">
+        <div class="panel-header">
+          <span class="panel-title">01 // CHASSIS &amp; SYSTEM TELEMETRY</span>
+          <span class="panel-tag" id="uptime-tag">UPTIME 00:00:00</span>
+        </div>
+        <div class="telemetry-bars">
+          <div class="metric-row">
+            <div class="metric-label">
+              <span>INTEL MOBILE CPU LOAD</span>
+              <span id="cpu-val">14.2%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="cpu-bar" style="width: 14.2%;"></div>
+            </div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label">
+              <span>DDR3 SO-DIMM RAM (2GB+2GB)</span>
+              <span id="ram-val">1.6 / 4.0 GB</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill gold" id="ram-bar" style="width: 40%;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="hw-specs-mini">
+          <div class="spec-chip"><span>AI ENGINE</span><strong>GEMINI 2.5 / MULTI-LLM</strong></div>
+          <div class="spec-chip"><span>TOOLS</span><strong>PDF + WEB KNOWLEDGE</strong></div>
+          <div class="spec-chip"><span>AUDIO</span><strong>OFFLINE TTS ENGINE</strong></div>
+          <div class="spec-chip"><span>DISPLAY</span><strong>LVDS DIRECT LINK</strong></div>
+        </div>
+      </div>
+
+      <!-- Panel 2: Open-Meteo Atmospheric Weather Array -->
+      <div class="hud-panel">
+        <div class="panel-header">
+          <span class="panel-title">02 // OPEN-METEO ATMOSPHERIC SENSOR</span>
+          <span class="panel-tag" id="weather-status-tag">NO-KEY API</span>
+        </div>
+
+        <div class="weather-search-bar">
+          <input type="text" id="weather-city-input" placeholder="Enter sector / city (e.g., Panaji, Mumbai, Pune)..." value="Panaji" />
+          <button class="hud-btn sm" id="weather-refresh-btn">SCAN</button>
+        </div>
+
+        <div class="weather-hero">
+          <div class="weather-temp-block">
+            <div class="temp-big" id="w-temp">--°C</div>
+            <div class="weather-cond" id="w-cond">SCANNING SATELLITE...</div>
+            <div class="weather-loc" id="w-loc">SECTOR: PANAJI</div>
+          </div>
+          <div class="weather-radar-ring">
+            <svg viewBox="0 0 100 100" class="radar-svg">
+              <circle cx="50" cy="50" r="44" class="radar-c1" />
+              <circle cx="50" cy="50" r="30" class="radar-c2" />
+              <circle cx="50" cy="50" r="15" class="radar-c3" />
+              <line x1="50" y1="6" x2="50" y2="94" class="radar-grid" />
+              <line x1="6" y1="50" x2="94" y2="50" class="radar-grid" />
+              <line x1="50" y1="50" x2="88" y2="25" class="radar-sweep" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="weather-metrics-grid">
+          <div class="w-box">
+            <span class="w-label">HUMIDITY</span>
+            <strong class="w-value" id="w-hum">--%</strong>
+          </div>
+          <div class="w-box">
+            <span class="w-label">WIND SPEED</span>
+            <strong class="w-value" id="w-wind">-- km/h</strong>
+          </div>
+          <div class="w-box">
+            <span class="w-label">FEELS LIKE</span>
+            <strong class="w-value" id="w-feels">--°C</strong>
+          </div>
+          <div class="w-box">
+            <span class="w-label">PRESSURE</span>
+            <strong class="w-value" id="w-press">-- hPa</strong>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- CENTER COLUMN: ARC REACTOR CORE & GEMINI-POWERED COMMAND TERMINAL -->
+    <section class="hud-col col-center">
+      <!-- Holographic Arc Reactor & Voice Waveform Core -->
+      <div class="arc-reactor-stage">
+        <div class="reactor-wrapper" id="reactor-core">
+          <svg viewBox="0 0 260 260" class="reactor-svg">
+            <defs>
+              <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+                <stop offset="40%" stop-color="#00f0ff" stop-opacity="0.75" />
+                <stop offset="100%" stop-color="#00f0ff" stop-opacity="0.0" />
+              </radialGradient>
+            </defs>
+            <circle cx="130" cy="130" r="120" class="ring-outer" />
+            <circle cx="130" cy="130" r="102" class="ring-segments" />
+            <circle cx="130" cy="130" r="82" class="ring-counter" />
+            <circle cx="130" cy="130" r="64" class="ring-gold" />
+            <circle cx="130" cy="130" r="42" fill="url(#coreGlow)" class="core-pulse" />
+            <circle cx="130" cy="130" r="26" class="core-inner-ring" />
+            <text x="130" y="134" text-anchor="middle" class="reactor-text">J.A.R.V.I.S.</text>
+          </svg>
+        </div>
+
+        <div class="voice-visualizer" id="voice-wave">
+          <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+          <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+          <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+          <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+        </div>
+        <div class="core-caption" id="core-status-text">SYSTEM STANDBY // GEMINI CORE READY</div>
+      </div>
+
+      <!-- J.A.R.V.I.S. Dialogue & Code / Document Explanation Stream -->
+      <div class="hud-panel chat-panel">
+        <div class="panel-header">
+          <span class="panel-title">04 // GEMINI NEURAL WORKSPACE &amp; CODE STREAM</span>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <span class="doc-badge" id="active-doc-badge" style="display:none;">📄 NO FILE</span>
+            <button class="hud-btn xs" id="clear-log-btn">RESET MEMORY</button>
+          </div>
+        </div>
+
+        <div class="chat-stream" id="chat-stream">
+          <div class="msg-card jarvis">
+            <div class="msg-meta">
+              <span class="msg-sender">J.A.R.V.I.S. // GEMINI CORE</span>
+              <span class="msg-time">SYSTEM READY</span>
+            </div>
+            <div class="msg-body">
+              Good day, Sir. I am now upgraded with the <strong>Gemini Core</strong> architecture:
+              <ul>
+                <li><strong>Multi-Turn Coding &amp; Engineering Brain:</strong> Click <strong>⚙️ AI KEY</strong> in the top right to paste a free Google AI Studio (<code>GEMINI_API_KEY</code>) key—or use my built-in local autonomous tools right away.</li>
+                <li><strong>PDF &amp; Code File Reader (📎):</strong> Attach any <code>.pdf</code>, <code>.py</code>, <code>.c</code>, <code>.md</code>, or <code>.csv</code> file using the paperclip button below and ask me to build, debug, or summarize it.</li>
+                <li><strong>Code &amp; document assistance:</strong> Ask me to explain, summarize, or help write code and analyze your uploaded documents.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Tactical Presets -->
+        <div class="preset-chips">
+          <button class="chip" data-query="Write a complete C program for 1D array insertion, deletion, and binary search with explanation">C Program: 1D Array &amp; Search</button>
+          <button class="chip" data-query="What is the current weather and wind speed in Panaji?">Weather in Panaji</button>
+        </div>
+
+        <!-- Hidden File Input for PDF / Code Upload -->
+        <input type="file" id="file-upload-input" accept=".pdf,.txt,.py,.c,.cpp,.h,.js,.html,.css,.md,.csv,.json" style="display:none;" />
+
+        <!-- Text Command Input Console + PDF/File Upload + Voice Input -->
+        <form class="command-bar" id="command-form">
+          <button type="button" class="hud-btn attach-btn" id="attach-file-btn" title="Upload PDF, C/Python Code, or Document for J.A.R.V.I.S. to Analyze">📎</button>
+          <button type="button" class="hud-btn mic-btn" id="mic-btn" title="Start voice input" aria-label="Start voice input" aria-pressed="false">🎙️</button>
+          <input
+            type="text"
+            id="command-input"
+            placeholder="Ask anything: write C/Python code, analyze uploaded PDF, solve math, or check weather..."
+            autocomplete="off"
+          />
+          <button type="submit" class="hud-btn send-btn">TRANSMIT ▸</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- HOLOGRAPHIC MODAL: 1-CLICK AI API KEY CONFIGURATION -->
+  <div class="hud-modal-backdrop" id="key-modal" style="display: none;">
+    <div class="hud-modal">
+      <div class="panel-header">
+        <span class="panel-title">⚙️ CONFIGURE J.A.R.V.I.S. CLOUD BRAIN (GEMINI / CLAUDE / GROQ)</span>
+        <button class="hud-btn xs" id="close-key-modal-btn">✕ CLOSE</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">
+          To make J.A.R.V.I.S. work with <strong>100% of Gemini's capabilities</strong> (writing full applications, debugging code, analyzing PDFs, and multi-turn reasoning), select <strong>Google Gemini (Free Tier)</strong> and paste your API key from
+          <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">aistudio.google.com/app/apikey</a>.
+        </p>
+        <div class="form-row">
+          <label>AI Provider:</label>
+          <select id="cfg-provider" class="hud-select">
+            <option value="gemini">Google Gemini API (Free Tier - Recommended)</option>
+            <option value="claude">Anthropic Claude API (Haiku / Sonnet)</option>
+            <option value="groq">Groq Cloud API (Free Tier - Llama 3.3 70B)</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>API Key:</label>
+          <input type="password" id="cfg-api-key" placeholder="Paste your API key here (saved locally to .env)..." style="width:100%;" />
+        </div>
+        <div class="form-row">
+          <label>Model Name (optional):</label>
+          <input type="text" id="cfg-model" placeholder="e.g. gemini-2.5-flash or claude-3-5-haiku-latest" style="width:100%;" />
+        </div>
+        <button class="hud-btn full-width" id="save-key-btn" style="margin-top:10px;">
+          💾 SAVE API KEY TO .ENV &amp; ACTIVATE BRAIN
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/jarvis_hud.js"></script>
+</body>
+</html>
